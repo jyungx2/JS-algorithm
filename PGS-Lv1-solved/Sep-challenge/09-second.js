@@ -1,5 +1,6 @@
 "use strict";
 
+// 음양 더하기 (9/2 Mon)
 // 🛎️ 문제 설명: 어떤 정수들이 있습니다. 이 정수들의 절댓값을 차례대로 담은 정수 배열 absolutes와 이 정수들의 부호를 차례대로 담은 불리언 배열 signs가 매개변수로 주어집니다. 실제 정수들의 합을 구하여 return 하도록 solution 함수를 완성해주세요.
 
 function solution(absolutes, signs) {
@@ -44,6 +45,7 @@ const balance = movements.reduce(function (acc, cur, i, arr) {
 // 그 후엔, 더 이상 starter값(= 0)이 아닌, i=2로 넘어갈 땐, initial value(= 200)에 i=1값이었던, 450을 더해줘야 하기 때문에,
 // 현재 Iteration보다 previous iteration의 current value를 더해줘야 한다고 설명한 이유.. 결국 모든게 starter의 존재 때문!
 
+// 없는 숫자 더하기 (9/2 Mon)
 // 🛎️ 문제 설명: 0부터 9까지의 숫자 중 일부가 들어있는 정수 배열 numbers가 매개변수로 주어집니다. numbers에서 찾을 수 없는 0부터 9까지의 숫자를 모두 찾아 더한 수를 return 하도록 solution 함수를 완성해주세요.
 
 function solution(numbers) {
@@ -60,6 +62,7 @@ function solution(numbers) {
   return 45 - numbers.reduce((cur, acc) => cur + acc, 0);
 }
 
+// 나누어 떨어지는 숫자 배열 (9/2 Mon)
 // 🛎️ 문제 설명: array의 각 element 중 divisor로 나누어 떨어지는 값을 오름차순으로 정렬한 배열을 반환하는 함수, solution을 작성해주세요. divisor로 나누어 떨어지는 element가 하나도 없다면 배열에 -1을 담아 반환하세요.
 
 function solution(arr, divisor) {
@@ -128,6 +131,7 @@ movements.sort((a, b) => b - a);
 // 📌 a > b (- : 아무 일도 안 일어나 a, b 그대로 => 결국 내림차순)
 // 📌 b > a (+ : 둘의 자리가 바뀌어 b, a로 바뀜 => 결국 내림차순)
 
+// 핸드폰 번호 가리기 (9/3 Tue)
 // 🛎️ 프로그래머스 모바일은 개인정보 보호를 위해 고지서를 보낼 때 고객들의 전화번호의 일부를 가립니다. 전화번호가 문자열 phone_number로 주어졌을 때, 전화번호의 뒷 4자리를 제외한 나머지 숫자를 전부 *으로 가린 문자열을 리턴하는 함수, solution을 완성해주세요.
 function solution(phone_number) {
   var answer = "";
@@ -180,3 +184,100 @@ console.log(animals.slice(2, -1));
 
 console.log(animals.slice());
 // Expected output: Array ["ant", "bison", "camel", "duck", "elephant"]
+
+// 제일 작은 수 제거하기 (9/3~4 Wed, 🚨)
+// 🛎️ 문제 설명: 정수를 저장한 배열, arr 에서 가장 작은 수를 제거한 배열을 리턴하는 함수, solution을 완성해주세요. 단, 리턴하려는 배열이 빈 배열인 경우엔 배열에 -1을 채워 리턴하세요. 예를들어 arr이 [4,3,2,1]인 경우는 [4,3,2]를 리턴 하고, [10]면 [-1]을 리턴 합니다.
+
+function solution(arr) {
+  let answer = [];
+  let min = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] < min) {
+      answer.push(min);
+      min = arr[i];
+    } else if (arr[i]) {
+      answer.push(arr[i]);
+    }
+  }
+  if (!answer.length) {
+    answer.push(-1);
+  }
+
+  return answer;
+}
+
+// 행렬의 덧셈 (9/4 Wed)
+// 🛎️ 문제 설명: 행렬의 덧셈은 행과 열의 크기가 같은 두 행렬의 같은 행, 같은 열의 값을 서로 더한 결과가 됩니다. 2개의 행렬 arr1과 arr2를 입력받아, 행렬 덧셈의 결과를 반환하는 함수, solution을 완성해주세요.
+
+function solution(arr1, arr2) {
+  const answer = [...arr1];
+  for (let i = 0; i < arr2.length; i++) {
+    for (let j = 0; j < arr2[i].length; j++) {
+      answer[i][j] += arr2[i][j];
+    }
+  }
+  console.log(answer);
+  return answer;
+}
+
+// 😲 다른 사람의 풀이
+// ✅ map method
+function sumMatrix(A, B) {
+  return A.map((arr1, idx1) => arr1.map((val, idx2) => val + B[idx1][idx2]));
+}
+
+// 😲 다른 사람의 풀이
+// 내가 원래 풀려고 했던 방식❗️💥
+function solution(arr1, arr2) {
+  var answer = [[]]; // ❓ 실제로는 이 초기화가 특별히 필요하지는 않습니다.
+  // 코드의 목적을 고려할 때, var answer = []로 초기화하는 것이 더 적절.
+  // 코드 진행 중에 answer의 각 인덱스에 새 배열을 할당하기 때문에,
+  // 처음에 var answer = []로 초기화해도 동일한 결과가 됩니다.
+  for (var i = 0; i < arr1.length; i++) {
+    answer[i] = []; // 여기서 i 개수만큼의 어레이를 생성해 하위 루프에서 푸쉬하면
+    // 어느 길이의 배열이 오든, 길이가 달라져도, 무조건 배열 개수 기준으로 배열이 생성되게 됨.
+    for (var j = 0; j < arr1[i].length; j++) {
+      answer[i].push(arr1[i][j] + arr2[i][j]);
+    }
+  }
+  return answer;
+}
+
+// 내적 (9/4 Wed)
+// 🛎️ 문제 설명: 길이가 같은 두 1차원 정수 배열 a, b가 매개변수로 주어집니다. a와 b의 내적을 return 하도록 solution 함수를 완성해주세요.
+function solution(a, b) {
+  let answer = 0;
+  for (let i = 0; i < a.length; i++) {
+    answer += a[i] * b[i];
+  }
+  return answer;
+}
+
+// 😲 다른 사람의 풀이
+// ✅ reduce method
+function solution(a, b) {
+  return a.reduce((acc, _, i) => (acc += a[i] * b[i]), 0);
+}
+
+// 문자열 내림차순으로 배치하기 (9/4 Wed)
+// 🛎️ 문제 설명: 문자열 s에 나타나는 문자를 큰것부터 작은 순으로 정렬해 새로운 문자열을 리턴하는 함수, solution을 완성해주세요. s는 영문 대소문자로만 구성되어 있으며, 대문자는 소문자보다 작은 것으로 간주합니다.
+function solution(s) {
+  var answer = [...s].sort().reverse().join("");
+  // s.slice().sort((a, b) => b - a);
+  // ⛔️ slice()는 어레이상에서만 쓸 수 있음.
+
+  return answer;
+}
+
+// 부족한 금액 계산하기 (9/4 Wed)
+// 🛎️ 문제 설명: 새로 생긴 놀이기구는 인기가 매우 많아 줄이 끊이질 않습니다. 이 놀이기구의 원래 이용료는 price원 인데, 놀이기구를 N 번 째 이용한다면 원래 이용료의 N배를 받기로 하였습니다. 즉, 처음 이용료가 100이었다면 2번째에는 200, 3번째에는 300으로 요금이 인상됩니다. 놀이기구를 count번 타게 되면 현재 자신이 가지고 있는 금액에서 얼마가 모자라는지를 return 하도록 solution 함수를 완성하세요. 단, 금액이 부족하지 않으면 0을 return 하세요.
+function solution(price, money, count) {
+  let total = 0;
+
+  for (let i = 1; i <= count; i++) {
+    total += price * i;
+  }
+
+  return money >= total ? 0 : total - money;
+  // 🖍️if-else 절 쓰는 것보다 훨씬 빠르다! (2.27 ms VS 0.08 ms)
+}
