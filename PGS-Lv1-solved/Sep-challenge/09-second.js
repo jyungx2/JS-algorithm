@@ -281,3 +281,61 @@ function solution(price, money, count) {
   return money >= total ? 0 : total - money;
   // 🖍️if-else 절 쓰는 것보다 훨씬 빠르다! (2.27 ms VS 0.08 ms)
 }
+
+// (9/5 Thur)
+// 🛎️ 문제 설명: 배열 arr가 주어집니다. 배열 arr의 각 원소는 숫자 0부터 9까지로 이루어져 있습니다. 이때, 배열 arr에서 연속적으로 나타나는 숫자는 하나만 남기고 전부 제거하려고 합니다. 단, 제거된 후 남은 수들을 반환할 때는 배열 arr의 원소들의 순서를 유지해야 합니다.
+// 예를 들면, arr = [1, 1, 3, 3, 0, 1, 1] 이면 [1, 3, 0, 1] 을 return 합니다. arr = [4, 4, 4, 3, 3] 이면 [4, 3] 을 return 합니다. 배열 arr에서 연속적으로 나타나는 숫자는 제거하고 남은 수들을 return 하는 solution 함수를 완성해 주세요.
+
+// ⛔️ 잘못된 나의 풀이
+// splice method는 기존 어레이를 mutate시킨다는 점을 명심❗️
+function solution(arr) {
+  const answer = [...arr];
+  const index = [];
+
+  for (let i = 0; i < answer.length; i++) {
+    if (answer[i] === answer[i + 1]) {
+      index.push(i + 1);
+      // answer.splice(i + 1, 1); => 3연속 같은 숫자의 경우 통과 ❌
+    }
+  }
+
+  for (let j = 0; j < index.length; j++) {
+    answer.splice(j, 1);
+  }
+
+  return answer;
+}
+
+// ✨ 수정한 나의 풀이
+function solution(arr) {
+  const answer = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] !== arr[i + 1]) {
+      answer.push(arr[i]);
+    }
+  }
+
+  return answer;
+}
+// 😲 다른 사람의 풀이
+// ✅ filter method
+function solution(arr) {
+  return arr.filter((val, index) => val != arr[index + 1]);
+}
+
+// 평균 계산하기 (9/6 Fri)
+// 🛎️ 문제 설명: 정수를 담고 있는 배열 arr의 평균값을 return하는 함수, solution을 완성해보세요.
+function solution(arr) {
+  let answer = 0;
+  for (let i = 0; i < arr.length; i++) {
+    answer += arr[i];
+  }
+  return answer / arr.length;
+}
+
+// 😲 다른 사람의 풀이
+// ✅ reduce method
+function average(array) {
+  return array.reduce((a, b) => a + b) / array.length;
+}
