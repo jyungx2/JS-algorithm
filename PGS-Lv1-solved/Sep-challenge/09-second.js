@@ -32,6 +32,8 @@ const calcDisplayBalance = function (acc) {
 };
 
 // EXAMPLE 2) when using just basic function
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
 const balance = movements.reduce(function (acc, cur, i, arr) {
   console.log(`Iteration ${i}: ${acc}`);
   return acc + cur; // current one(acc) + new current value(cur)
@@ -167,6 +169,7 @@ console.log(`I feel ${mood.repeat(3)}`);
 "abc".repeat(3.5); // 'abcabcabc' (count will be converted to integer)
 
 // 💡 slice method
+const animals = ["ant", "bison", "camel", "duck", "elephant"];
 console.log(animals.slice(2));
 // Expected output: Array ["camel", "duck", "elephant"]
 
@@ -282,7 +285,7 @@ function solution(price, money, count) {
   // 🖍️if-else 절 쓰는 것보다 훨씬 빠르다! (2.27 ms VS 0.08 ms)
 }
 
-// (9/5 Thur)
+// 같은 숫자는 싫어! (9/5 Thur)
 // 🛎️ 문제 설명: 배열 arr가 주어집니다. 배열 arr의 각 원소는 숫자 0부터 9까지로 이루어져 있습니다. 이때, 배열 arr에서 연속적으로 나타나는 숫자는 하나만 남기고 전부 제거하려고 합니다. 단, 제거된 후 남은 수들을 반환할 때는 배열 arr의 원소들의 순서를 유지해야 합니다.
 // 예를 들면, arr = [1, 1, 3, 3, 0, 1, 1] 이면 [1, 3, 0, 1] 을 return 합니다. arr = [4, 4, 4, 3, 3] 이면 [4, 3] 을 return 합니다. 배열 arr에서 연속적으로 나타나는 숫자는 제거하고 남은 수들을 return 하는 solution 함수를 완성해 주세요.
 
@@ -339,3 +342,39 @@ function solution(arr) {
 function average(array) {
   return array.reduce((a, b) => a + b) / array.length;
 }
+
+// 가운데 글자 가져오기 (9/7 Sat)
+// 🛎️ 문제 설명: 단어 s의 가운데 글자를 반환하는 함수, solution을 만들어 보세요. 단어의 길이가 짝수라면 가운데 두글자를 반환하면 됩니다.
+function solution(s) {
+  const half = s.length / 2;
+
+  if (s.length % 2 === 0) {
+    return s[half - 1] + s[half];
+  } else {
+    return s[Math.trunc(half)];
+  }
+}
+
+// 😲 다른 사람의 풀이
+// ✅ substring method
+// ⛔️ substr() method is no longer recommended(deprecated). Avoid using it❗️
+function solution(s) {
+  return s.substr(Math.ceil(s.length / 2) - 1, s.length % 2 === 0 ? 2 : 1);
+}
+
+// 🛎️ str.substr() vs str.slice() vs str.substring()
+// 1) str.substr(start, length) => length: negative, it returns empty string.
+let str = "01234";
+console.log(str.substr(1, 3)); // Output: "123"
+
+// 2) str.slice(beginIndex, endIndex)
+console.log(str.slice(1, 4)); // Output: "123"
+// slice method에서의 negative index는 substring과 다르게, 그대로 계산되어 출력된다!
+// -1은 끝에서 첫번째, -2는 끝에서 두번째 이렇게...
+// 따라서 밑에는 가장 마지막 인덱스인 4를 제외한(포함❌) 3까지 출력되는 것.
+console.log(str.slice(1, -1)); // Same Output: "123"
+
+// 3) str.substring(beginIndex, endIndex) (= slice() method🌟)
+// 💥 Difference from slice(): If either argument is less than 0 or NaN, it is treated as 0.
+// 👉 substring() treats negative values as 0. So, substring(1, -1) is treated as substring(1, 0), which extracts from 0 to 1 and returns "0".
+console.log(str.substring(1, 4)); // Output: "123"
