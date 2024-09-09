@@ -378,3 +378,4 @@ console.log(str.slice(1, -1)); // Same Output: "123"
 // 💥 Difference from slice(): If either argument is less than 0 or NaN, it is treated as 0.
 // 👉 substring() treats negative values as 0. So, substring(1, -1) is treated as substring(1, 0), which extracts from 0 to 1 and returns "0".
 console.log(str.substring(1, 4)); // Output: "123"
+console.log(str.substring(1, -1)); // = (1, 0) => 0
