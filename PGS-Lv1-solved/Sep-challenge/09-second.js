@@ -150,3 +150,56 @@ function solution(a, b, flag) {
 function solution(my_string, k) {
   return (answer = my_string.repeat(k));
 }
+
+// 배열의 유사도 (9/13 Fri)
+//  🛎️ 문제 설명: 두 배열이 얼마나 유사한지 확인해보려고 합니다. 문자열 배열 s1과 s2가 주어질 때 같은 원소의 개수를 return하도록 solution 함수를 완성해주세요.
+function solution(s1, s2) {
+  let answer = 0;
+  for (let i = 0; i < s2.length; i++) {
+    if (s1.includes(s2[i])) answer++;
+  }
+  return answer;
+}
+
+// 😲 다른 사람의 풀이
+// ✅ filter function(method)
+function solution(s1, s2) {
+  const intersection = s1.filter((x) => s2.includes(x));
+  return intersection.length;
+}
+
+// 분수의 덧셈 (9/13 Fri)
+// 🛎️ 문제 설명: 첫 번째 분수의 분자와 분모를 뜻하는 numer1, denom1, 두 번째 분수의 분자와 분모를 뜻하는 numer2, denom2가 매개변수로 주어집니다. 두 분수를 더한 값을 기약 분수로 나타냈을 때 분자와 분모를 순서대로 담은 배열을 return 하도록 solution 함수를 완성해보세요.
+// 💥이 문제의 핵심은, 최대한 간단하게 풀 방법을 찾고, 최대공약수 구하는 방법을 찾는 것.
+
+// ✔️ 유클리드 호제법을 이용한 최대공약수, 최소공배수 구하는 방법:
+const gcd = (a, b) => (a % b === 0 ? b : gcd(b, a % b));
+const lcm = (a, b) => (a * b) / gcd(a, b);
+// ----------------------------------------------------------
+
+function solution(numer1, denom1, numer2, denom2) {
+  const answer = [];
+
+  const a = numer1 * denom2 + numer2 * denom1; // ✔️ 분자 계산
+  const b = denom1 * denom2; // ✔️ 분모 계산
+
+  // ✔️ 최대공약수 구하기
+  const gcd = (a, b) => (a % b === 0 ? b : gcd(b, a % b));
+
+  answer.push(a / gcd(a, b), b / gcd(a, b));
+
+  return answer;
+}
+
+// 😲 다른 사람의 풀이
+function fnGCD(a, b) {
+  return a % b ? fnGCD(b, a % b) : b;
+}
+
+function solution(denum1, num1, denum2, num2) {
+  let denum = denum1 * num2 + denum2 * num1;
+  let num = num1 * num2;
+  let gcd = fnGCD(denum, num); // 최대공약수
+
+  return [denum / gcd, num / gcd];
+}
