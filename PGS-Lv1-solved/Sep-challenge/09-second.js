@@ -203,3 +203,61 @@ function solution(denum1, num1, denum2, num2) {
 
   return [denum / gcd, num / gcd];
 }
+
+// 피자 나눠먹기 (3) (9/14 Sat)
+// 🛎️ 문제 설명: 머쓱이네 피자가게는 피자를 두 조각에서 열 조각까지 원하는 조각 수로 잘라줍니다. 피자 조각 수 slice와 피자를 먹는 사람의 수 n이 매개변수로 주어질 때, n명의 사람이 최소 한 조각 이상 피자를 먹으려면 최소 몇 판의 피자를 시켜야 하는지를 return 하도록 solution 함수를 완성해보세요.
+function solution(slice, n) {
+  let answer = 0;
+  if (n % slice === 0) {
+    answer = n / slice;
+  } else {
+    answer = Math.trunc(n / slice + 1);
+  }
+  return answer;
+}
+
+// 😲 다른 사람의 풀이 : + 1해줄 필요 없이, 나눴을 때 자연수로 안 떨어지면 무조건 올려버림!!
+function solution(slice, n) {
+  return Math.ceil(n / slice);
+}
+
+// 옷가게 할인 받기 (9/14 Sat)
+// 🛎️ 문제 설명: 머쓱이네 옷가게는 10만 원 이상 사면 5%, 30만 원 이상 사면 10%, 50만 원 이상 사면 20%를 할인해줍니다. 구매한 옷의 가격 price가 주어질 때, 지불해야 할 금액을 return 하도록 solution 함수를 완성해보세요.
+function solution(price) {
+  let priceAfterSale;
+  if (price >= 500000) {
+    priceAfterSale = Math.trunc(price - price * 0.2);
+  } else if (price >= 300000) {
+    priceAfterSale = Math.trunc(price - price * 0.1);
+  } else if (price >= 100000) {
+    priceAfterSale = Math.trunc(price - price * 0.05);
+  }
+
+  return priceAfterSale;
+}
+
+// 😲 다른 사람의 풀이
+const discounts = [
+  [500000, 20],
+  [300000, 10],
+  [100000, 5],
+];
+
+const solution = (price) => {
+  for (const discount of discounts)
+    if (price >= discount[0])
+      return Math.floor(price - (price * discount[1]) / 100);
+  return price;
+};
+
+// 피자 나눠 먹기(1) (9/14 Sat)
+// 🛎️ 문제 설명: 머쓱이네 피자가게는 피자를 일곱 조각으로 잘라 줍니다. 피자를 나눠먹을 사람의 수 n이 주어질 때, 모든 사람이 피자를 한 조각 이상 먹기 위해 필요한 피자의 수를 return 하는 solution 함수를 완성해보세요.
+
+function solution(n) {
+  let answer = n % 7 === 0 ? n / 7 : Math.ceil(n / 7);
+  return answer;
+}
+
+function solution(n) {
+  return Math.ceil(n / 7);
+}
