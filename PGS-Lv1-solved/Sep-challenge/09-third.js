@@ -139,3 +139,35 @@ function solution(binomial) {
   // 💥 + 연산자로 문자열을 숫자로 변환!!
   return ops[op](+a, +b);
 }
+
+// 간단한 식 계산하기 (9/21 Sat)
+// 🛎️ 문제 설명: 길이가 같은 두 문자열 str1과 str2가 주어집니다. 두 문자열의 각 문자가 앞에서부터 서로 번갈아가면서 한 번씩 등장하는 문자열을 만들어 return 하는 solution 함수를 완성해 주세요.
+function solution(str1, str2) {
+  var answer = "";
+  for (let i = 0; i < str1.length; i++) {
+    answer += str1[i];
+    answer += str2[i];
+  }
+  return answer;
+}
+
+// 😲 다른 사람의 풀이
+// ✅ map method
+function solution(str1, str2) {
+  return [...str1].map((x, idx) => x + str2[idx]).join("");
+}
+
+// 등수 매기기 (9/21 Sat)
+// 🛎️ 문제 설명: 영어 점수와 수학 점수의 평균 점수를 기준으로 학생들의 등수를 매기려고 합니다. 영어 점수와 수학 점수를 담은 2차원 정수 배열 score가 주어질 때, 영어 점수와 수학 점수의 평균을 기준으로 매긴 등수를 담은 배열을 return하도록 solution 함수를 완성해주세요.
+function solution(score) {
+  var answer = [];
+  for (let i = 0; i < score.length; i++) {
+    let one = score[i][0];
+    let two = score[i][1];
+    let average = (one + two) / 2;
+    answer.push(average);
+  }
+  answer.sort((a, b) => b - a); // 내림차순
+  console.log(answer);
+  return answer;
+}
