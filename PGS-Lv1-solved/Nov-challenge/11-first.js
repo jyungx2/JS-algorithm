@@ -1,4 +1,5 @@
-// 연속된 공백이 있을 경우, split(' ')은 그 공백을 하나의 구분자로 취급
+// JadenCase 문자열 만들기 (11/7 Thu)
+// 🛎️ 문제 설명: JadenCase란 모든 단어의 첫 문자가 대문자이고, 그 외의 알파벳은 소문자인 문자열입니다. 단, 첫 문자가 알파벳이 아닐 때에는 이어지는 알파벳은 소문자로 쓰면 됩니다. (첫 번째 입출력 예 참고) 문자열 s가 주어졌을 때, s를 JadenCase로 바꾼 문자열을 리턴하는 함수, solution을 완성해주세요. 연속된 공백이 있을 경우, split(' ')은 그 공백을 하나의 구분자로 취급
 const str1 = "hello   world";
 const result1 = str1.split(" ");
 console.log(result1);
@@ -61,3 +62,42 @@ console.log(str4.slice(-5)); // "world" - 음수 인덱스 사용(✨뒤에서�
 console.log(str4.substring(4, 0)); // "hell"
 // 💥slice()와의 차이점: start가 end보다 클 경우, 빈 문자열을 반환합니다 (자동으로 인덱스가 바뀌지 않습니다).
 console.log(str4.slice(5, 0)); // "" - start가 end보다 크므로 빈 문자열 반환
+
+// 완주하지 못한 선수 (11/8 Fri)
+// 🛎️ 문제 설명: 수많은 마라톤 선수들이 마라톤에 참여하였습니다. 단 한 명의 선수를 제외하고는 모든 선수가 마라톤을 완주하였습니다.마라톤에 참여한 선수들의 이름이 담긴 배열 participant와 완주한 선수들의 이름이 담긴 배열 completion이 주어질 때, 완주하지 못한 선수의 이름을 return 하도록 solution 함수를 작성해주세요.
+function solution(participant, completion) {
+  participant.sort();
+  completion.sort();
+
+  for (let i = 0; i < completion.length; i++) {
+    if (participant[i] !== completion[i]) {
+      return participant[i];
+    }
+  }
+
+  return participant[participant.length - 1];
+}
+
+// 😲 소정님 풀이
+function solution(participant, completion) {
+  const map = new Map();
+
+  for (let i = 0; i < participant.length; i++) {
+    if (!map.has(participant[i])) map.set(participant[i], 1);
+    else map.set(participant[i], map.get(participant[i]) + 1);
+  }
+
+  // 💥 Map은 키-값 쌍을 저장하는 자료구조로, 하나의 키에는 하나의 값만 연결됩니다. 그래서 같은 키로 값을 설정하면 기존 값이 덮어쓰여서 하나의 값만 유지됩니다.
+  // Map에서 특정 키의 값을 수정하려면 set 메서드를 사용해 새로운 값을 할당합니다.
+  // 예를 들어, 이미 존재하는 키 'A'의 값을 2에서 1로 바꿀 때: map.set('A', 1);  // 'A'의 값이 1로 업데이트됨
+  // => Map은 항상 최신 값만 유지하기 때문에, A => 2가 아니라 A => 1만 남게 됩니다.
+
+  // 반면, Set은 값만 저장하며, 중복된 값을 허용하지 않는 자료구조입니다. Set에 값을 추가하면 이미 존재하는 값이더라도 중복 없이 단일 값으로만 저장됩니다.
+  for (let i = 0; i < completion.length; i++) {
+    if (map.get(completion[i]) >= 2)
+      map.set(completion[i], map.get(completion[i]) - 1);
+    else map.delete(completion[i]);
+  }
+
+  return map.keys().next().value;
+}
