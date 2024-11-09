@@ -102,7 +102,7 @@ function solution(participant, completion) {
   return map.keys().next().value;
 }
 
-// JadenCase 문자열 만들기 (11/9 Sat)
+// 문자열 다루기 기본 (11/9 Sat)
 // 🛎️ 문제 설명: 문자열 s의 길이가 4 혹은 6이고, 숫자로만 구성돼있는지 확인해주는 함수, solution을 완성하세요. 예를 들어 s가 "a234"이면 False를 리턴하고 "1234"라면 True를 리턴하면 됩니다.
 
 function solution(s) {
@@ -119,4 +119,30 @@ function solution(s) {
   }
 
   return answer;
+}
+
+// 제일 작은 수 제거하기 (11/9 Sat)
+// 🛎️ 문제 설명: 정수를 저장한 배열, arr 에서 가장 작은 수를 제거한 배열을 리턴하는 함수, solution을 완성해주세요. 단, 리턴하려는 배열이 빈 배열인 경우엔 배열에 -1을 채워 리턴하세요. 예를들어 arr이 [4,3,2,1]인 경우는 [4,3,2]를 리턴 하고, [10]면 [-1]을 리턴 합니다.
+function solution(arr) {
+  const answer = [...arr];
+  let minNum = arr[0];
+
+  if (arr.length < 2) return [-1];
+  for (let i = 1; i < arr.length; i++) {
+    if (minNum > arr[i]) {
+      minNum = arr[i];
+    }
+  }
+
+  const index = answer.findIndex((el) => el === minNum);
+  answer.splice(index, 1);
+
+  return answer;
+}
+
+// 😲 가장 선호되는 풀이
+function solution(arr) {
+  arr.splice(arr.indexOf(Math.min(...arr)), 1);
+  if (arr.length < 1) return [-1];
+  return arr;
 }
