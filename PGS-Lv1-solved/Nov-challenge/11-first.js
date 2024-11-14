@@ -246,3 +246,49 @@ function solution(clothes) {
   // 최소 한 개의 의상은 입어야 하므로 전체 경우의 수에서 아무것도 입지 않은 경우(1)를 뺌
   return answer - 1;
 }
+
+// 베스트앨범 (11/13 Wed)
+// 🛎️ 문제 설명: 스트리밍 사이트에서 장르 별로 가장 많이 재생된 노래를 두 개씩 모아 베스트 앨범을 출시하려 합니다. 노래는 고유 번호로 구분하며, 노래를 수록하는 기준은 다음과 같습니다.
+
+// 1. 속한 노래가 많이 재생된 장르를 먼저 수록합니다.
+// 2. 장르 내에서 많이 재생된 노래를 먼저 수록합니다.
+// 3. 장르 내에서 재생 횟수가 같은 노래 중에서는 고유 번호가 낮은 노래를 먼저 수록합니다.
+
+// 노래의 장르를 나타내는 문자열 배열 genres와 노래별 재생 횟수를 나타내는 정수 배열 plays가 주어질 때, 베스트 앨범에 들어갈 노래의 고유 번호를 순서대로 return 하도록 solution 함수를 완성하세요.
+
+function solution(genres, plays) {
+  const genrePlayCount = new Map();
+  const songsByGenre = {};
+
+  // 1. 장르별 총 재생 횟수와 장르별 노래 목록 저장
+  genres.forEach((genre, i) => {
+    genrePlayCount.set(genre, (genrePlayCount.get(genre) || 0) + plays[i]);
+
+    if (!songsByGenre[genre]) {
+      songsByGenre[genre] = [];
+    }
+    songsByGenre[genre].push({ index: i, playCount: plays[i] });
+  });
+
+  // 2. 장르를 총 재생 횟수 내림차순으로 정렬
+  const sortedGenres = [...genrePlayCount.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .map((entry) => entry[0]);
+
+  const answer = [];
+
+  // 3. 각 장르별로 노래 목록 정렬 후 최대 두 곡까지 answer에 추가
+  sortedGenres.forEach((genre) => {
+    const sortedSongs = songsByGenre[genre].sort((a, b) => {
+      if (b.playCount === a.playCount) {
+        return a.index - b.index;
+      }
+      return b.playCount - a.playCount;
+    });
+
+    // 최대 두 곡 추가
+    answer.push(...sortedSongs.slice(0, 2).map((song) => song.index));
+  });
+
+  return answer;
+}
