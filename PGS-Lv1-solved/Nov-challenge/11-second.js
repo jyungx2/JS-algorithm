@@ -129,29 +129,32 @@ console.log(solution("()()"));
 //   3.1 한 번 실행한 프로세스는 다시 큐에 넣지 않고 그대로 종료됩니다.
 function solution(priorities, location) {
   let queue = priorities.map((priority, idx) => ({ priority, idx }));
-  console.log(queue);
 
-  let executionOrder = 0;
+  // let executionOrder = 0;
+  const executionQueue = []; // ✅ 내가 생각했던 방법..
 
   for (let i = 0; queue.length > 0; i++) {
-    // 맨 앞 프로세스를 꺼냄: shift() <-> 맨 뒤 요소를 꺼냄: pop()
-    let current = queue.shift();
+    // 💥맨 앞 프로세스를 꺼냄: "shift()" <-> 맨 뒤 요소를 꺼냄: pop()
+    let current = queue.shift(); // 🔑
 
-    // 나머지 프로세스 중 우선순위가 더 높은 프로세스가 있는지 확인
-    const hasHigherPriority = queue.some((p) => p.priority > current.priority);
+    // 💥나머지 프로세스 중 우선순위가 더 높은 프로세스가 있는지 확인: "some()"
+    // ...배열 중 다음 조건을 하나라도 만족하는 요소가 있다면 true 반환
+    const hasHigherPriority = queue.some((p) => p.priority > current.priority); // 🔑
 
     if (hasHigherPriority) {
       // 우선순위가 높은 프로세스가 있을 시, 다시 큐 끝에 추가
       queue.push(current);
     } else {
       // 실행 (종료)
-      executionOrder++;
+      // executionOrder++;
 
-      if (current.idx === location) {
-        return executionOrder;
-      }
+      // if (current.idx === location) {
+      //   return executionOrder;
+      // }
+      executionQueue.push(current); // ✅ 위 코드 대신 사용
     }
   }
+  return executionQueue.findIndex((queueEl) => queueEl.index === location) + 1; // ✅
 }
 
 // 🖍️ arr.shift() 대신 arr.splice(0, 1)[0]을 사용한 풀이
