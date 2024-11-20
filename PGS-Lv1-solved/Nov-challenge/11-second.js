@@ -119,3 +119,70 @@ function solution(s) {
 }
 
 console.log(solution("()()"));
+
+// 프로세스 (11/20 Wed)
+// 🛎️ 문제 설명: 운영체제의 역할 중 하나는 컴퓨터 시스템의 자원을 효율적으로 관리하는 것입니다. 이 문제에서는 운영체제가 다음 규칙에 따라 프로세스를 관리할 경우 특정 프로세스가 몇 번째로 실행되는지 알아내면 됩니다.
+
+// 1. 실행 대기 큐(Queue)에서 대기중인 프로세스 하나를 꺼냅니다.
+// 2. 큐에 대기중인 프로세스 중 우선순위가 더 높은 프로세스가 있다면 방금 꺼낸 프로세스를 다시 큐에 넣습니다.
+// 3. 만약 그런 프로세스가 없다면 방금 꺼낸 프로세스를 실행합니다.
+//   3.1 한 번 실행한 프로세스는 다시 큐에 넣지 않고 그대로 종료됩니다.
+function solution(priorities, location) {
+  let queue = priorities.map((priority, idx) => ({ priority, idx }));
+  console.log(queue);
+
+  let executionOrder = 0;
+
+  for (let i = 0; queue.length > 0; i++) {
+    // 맨 앞 프로세스를 꺼냄: shift() <-> 맨 뒤 요소를 꺼냄: pop()
+    let current = queue.shift();
+
+    // 나머지 프로세스 중 우선순위가 더 높은 프로세스가 있는지 확인
+    const hasHigherPriority = queue.some((p) => p.priority > current.priority);
+
+    if (hasHigherPriority) {
+      // 우선순위가 높은 프로세스가 있을 시, 다시 큐 끝에 추가
+      queue.push(current);
+    } else {
+      // 실행 (종료)
+      executionOrder++;
+
+      if (current.idx === location) {
+        return executionOrder;
+      }
+    }
+  }
+}
+
+// 🖍️ arr.shift() 대신 arr.splice(0, 1)[0]을 사용한 풀이
+// splice는 slice()처럼 배열을 반환한다!
+// ✨splice(): 삭제된 요소들을 (배열)형태로 반환.
+let list = [1, 2, 3];
+let removed = list.splice(0, 1); // 첫 번째 요소를 1개 삭제
+
+console.log(removed); // [1] (배열로 반환됨)
+console.log(list); // [2, 3] (원본 배열이 변경됨)
+
+// ✨slice()
+let list2 = [1, 2, 3, 4, 5];
+let sliced = list.slice(1, 4); // 인덱스 1부터 3까지 (4는 제외)
+
+console.log(sliced); // [2, 3, 4]
+console.log(list2); // [1, 2, 3, 4, 5] (원본 배열은 변경되지 않음)
+
+function solution(priorities, location) {
+  var list = priorities.map((t, i) => ({
+    my: i === location,
+    val: t,
+  }));
+  var count = 0;
+  while (true) {
+    var cur = list.splice(0, 1)[0];
+    if (list.some((t) => t.val > cur.val)) {
+      list.push(cur);
+    } else {
+      count++;
+      if (cur.my) return count;
+    }
+  }
+}
