@@ -133,6 +133,7 @@ function solution(priorities, location) {
   // let executionOrder = 0;
   const executionQueue = []; // ✅ 내가 생각했던 방법..
 
+  // for-loop보다 while()문도 사용해보자!
   for (let i = 0; queue.length > 0; i++) {
     // 💥맨 앞 프로세스를 꺼냄: "shift()" <-> 맨 뒤 요소를 꺼냄: pop()
     let current = queue.shift(); // 🔑
@@ -156,6 +157,26 @@ function solution(priorities, location) {
   }
   return executionQueue.findIndex((queueEl) => queueEl.index === location) + 1; // ✅
 }
+
+// while()
+// 1. condition(조건)이 truthy 이면 반복문 본문의 코드가 실행됩니다.
+while (condition) {
+  // 코드
+  // '반복문 본문(body)'이라 불림
+}
+
+let i = 0;
+while (i < 3) {
+  // 0, 1, 2가 출력됩니다.
+  alert(i);
+  i++;
+}
+
+// 2. do...while문은 조건을 나중에 확인합니다. 즉, 먼저 한 번 실행하고 나서 조건을 확인하고, 조건이 참인 동안 계속 실행됩니다. 최소한 한 번은 실행된다는 특징이 있습니다.
+// =>  조건이 truthy 인지 아닌지에 상관없이, 본문을 최소한 한 번이라도 실행하고 싶을 때만 사용해야 합니다. 대다수의 상황에선 do..while보다 while(…) {…}이 적합합니다.
+do {
+  // 조건과 관계없이 한 번 실행할 코드(본문)
+} while (condition);
 
 // 🖍️ arr.shift() 대신 arr.splice(0, 1)[0]을 사용한 풀이
 // splice는 slice()처럼 배열을 반환한다!
